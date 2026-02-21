@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>LogicDevSystem - Assistente Virtual</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+    }
+
+    /* Botão flutuante */
+    .chat-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Caixa do chat */
+    .chat-box {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 300px;
+      background: #1e293b;
+      border-radius: 12px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .chat-header {
+      background: #2563eb;
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .chat-messages {
+      height: 250px;
+      overflow-y: auto;
+      padding: 10px;
+      font-size: 14px;
+      color: white;
+    }
+
+    .msg {
+      margin: 8px 0;
+      padding: 8px 10px;
+      border-radius: 8px;
+      max-width: 80%;
+    }
+
+    .bot {
+      background: #334155;
+      align-self: flex-start;
+    }
+
+    .user {
+      background: #2563eb;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #334155;
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      outline: none;
+    }
+
+    .chat-input button {
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<button class="chat-button" onclick="toggleChat()">💬</button>
+
+<div class="chat-box" id="chatBox">
+  <div class="chat-header">LogicDevSystem Assistente</div>
+  
+  <div class="chat-messages" id="messages">
+    <div class="msg bot">Olá! 👋 Sou o assistente da LogicDevSystem. Como posso ajudar?</div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Digite sua mensagem...">
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+</div>
+
+<script>
+  function toggleChat() {
+    const chat = document.getElementById("chatBox");
+    chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("userInput");
+    const text = input.value.trim();
+    if (text === "") return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    setTimeout(() => {
+      botReply(text);
+    }, 800);
+  }
+
+  function addMessage(text, type) {
+    const messages = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = "msg " + type;
+    msg.innerText = text;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function botReply(text) {
+    let reply = "Desculpe, não entendi. Pode reformular?";
+
+    text = text.toLowerCase();
+
+    if (text.includes("serviço") || text.includes("servicos")) {
+      reply = "Oferecemos desenvolvimento de sistemas, chatbots e automações personalizadas.";
+    } 
+    else if (text.includes("contato")) {
+      reply = "Você pode entrar em contato pelo WhatsApp: (seu número aqui)";
+    } 
+    else if (text.includes("preço") || text.includes("valor")) {
+      reply = "Os valores variam conforme o projeto. Descreva sua necessidade!";
+    } 
+    else if (text.includes("site") || text.includes("sistema")) {
+      reply = "Desenvolvemos sites e sistemas personalizados para empresas.";
+    }
+
+    addMessage(reply, "bot");
+  }
+</script>
+
+</body>
+</html>
